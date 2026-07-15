@@ -1,5 +1,6 @@
-from sqlalchemy import Integer, String, ForeignKey
-from sqlalchemy.orm import Mapped, relationship,mapped_column
+from sqlalchemy import String, ForeignKey, Integer
+from sqlalchemy.orm import Mapped, relationship
+from sqlalchemy.testing.schema import mapped_column
 
 from database import Base
 
