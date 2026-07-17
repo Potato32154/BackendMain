@@ -2,7 +2,7 @@ from pydantic import BaseModel
 from typing import Optional, List
 
 
-class User(BaseModel):
+class UserCreate(BaseModel):
     name: str
     password: str
     password_repeat: str
@@ -31,8 +31,8 @@ class ProductCreate(BaseModel):
 class ProductUpdate(BaseModel):
     name: Optional[str] = None
     description: Optional[str] = None
-    price: Optional[str] = None
-    stock_quantity: Optional[str] = None
+    price: Optional[int] = None
+    stock_quantity: Optional[int] = None
 
 class ProductResponse(BaseModel):
     id: int
