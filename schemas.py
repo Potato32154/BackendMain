@@ -3,6 +3,7 @@ from typing import Optional, List
 
 
 class UserCreate(BaseModel):
+    email: str
     name: str
     password: str
     password_repeat: str
@@ -17,6 +18,24 @@ class UserResponse(BaseModel):
     role: str="user"
     class Config:
         from_attributes=True
+
+class UserAdminResponse(BaseModel):
+    id: int
+    email: str
+    name: str
+    role: str
+    is_active: bool
+    class Config:
+        from_attributes=True
+
+
+class UserAdminUpdate(BaseModel):
+    email: Optional[str]=None
+    name: Optional[str]=None
+    password: Optional[str]=None
+    role: Optional[str]=None
+    is_active: Optional[bool]=None
+
 
 class Token(BaseModel):
     access_token: str

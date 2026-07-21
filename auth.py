@@ -12,7 +12,7 @@ from database import settings, get_db
 from models import User
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/users/login")
-pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
+pwd_context = CryptContext(schemes=["pbkdf2_sha256"], deprecated="auto")
 
 def hash_password(password: str):
     return pwd_context.hash(password)
@@ -38,12 +38,14 @@ def get_current_user(token: str = Depends(oauth2_scheme),
     )
     try:
         payload = jwt.decode(token, settings.SECRET_KEY,algorithms=[settings.ALGORITHM])
-        username: str|None = payload.get("sub")
-        if username is None:
+        user_id: str|None = payload.get("sub")
+        if user_id is None:
             raise credentials_exception
     except JWTError:
         raise credentials_exception
-    user=db.query(User).filter(User.name==username).first()
+    user=db.query(User).filter(User.id==int(user_id)).first()
     if user is None:
         raise credentials_exception
+    if not user.is_active:
+        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Пользователь заблокирован")
     return user
