@@ -11,7 +11,7 @@ router=APIRouter(prefix="/admin", tags=["Admin"])
 
 def admin_required(current_user:User=Depends(get_current_user)):
     if current_user.role!="admin":
-        raise HTTPException(status_code=403,detail="Недостаточно прав. Требуется роль")
+        raise HTTPException(status_code=403,detail="Недостаточно прав. Требуется роль admin")
     return current_user
 
 @router.get("/all_users", response_model=list[UserAdminResponse])

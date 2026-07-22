@@ -84,14 +84,15 @@ class OrderItemCreate(BaseModel):
 
 class OrderItemResponse(BaseModel):
     id: int
-    user_id: int
     product_id: int
+    product_name: str
+    product_price: int
     quantity: int
     class Config:
         from_attributes=True
 
 class OrderCreate(BaseModel):
-    item: List[OrderItemCreate]
+    items: List[OrderItemCreate]
 
 class OrderResponse(BaseModel):
     id: int
